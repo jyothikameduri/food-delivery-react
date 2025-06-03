@@ -14,25 +14,34 @@ useEffect(() => {
   // --> but because of not using fetch useEffect() works synchronously 
   // --> but i want shimmer effect just for my sake 
   // --> so i used setTimeout to make delay like fetch (for my experience like website dev) 
-  setTimeout(() => {
-    setListOfRestaurants(resList);
-    setfilteredRestaurants(resList);
-  }, 1000); 
+  // --> also we can host out data in the mockapi.io
+  // setTimeout(() => {
+  //   setListOfRestaurants(resList);
+  //   setfilteredRestaurants(resList);
+  // }, 1000); 
+  fetchData();
 }, []);
 
-  // const fetchData = async () => {
-  //   const data = await fetch(
-  //     "https://www.swiggy.com/dapi/restaurants/list/v5?lat=16.50330&lng=80.64650&page_type=DESKTOP_WEB_LISTING"
-  //   );
-  //   const json = await data.json();
-  //   console.log(json?.data?.cards);
+  const fetchData = async () => {
+    const data = await fetch(
+      "https://www.swiggy.com/dapi/restaurants/list/v5?lat=12.9352403&lng=77.624532&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING"
+    );
+    const json = await data.json();
+      console.log(json?.data?.cards);
 
-  //   const restaurants =
-  //     json?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants || [];
+      let restaurants = [];
+      const cards = json?.data?.cards || [];
 
-  //   setListOfRestaurants(restaurants);
-  //   setfilteredRestaurants(restaurants);
-  // };
+      for (let card of cards) {
+        const grid = card?.card?.card?.gridElements?.infoWithStyle?.restaurants;
+        if (grid) {
+          restaurants = grid;
+          break;
+        }
+      }
+        setListOfRestaurants(restaurants);
+      setfilteredRestaurants(restaurants);
+  };
 
   //this is conditional rendering
 //   if (ListOfRestaurants.length === 0){
