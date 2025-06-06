@@ -4,11 +4,12 @@ import { Link } from "react-router-dom";
 
 const Header = ()=>{
     //let btn = "login"; js variable --> this does not render the UI --> so use spatial state variable
-    let [btn,setbtn] = useState("login");
+    let [ btn,setbtn ] = useState("login");
 
     return (<div className="header">
         <div className="logo">
             <img src= {LOGO_URL} alt="logo"></img>
+            <p>QuikiEats</p>
         </div>
         <div className="headerComponents">
             <ul>

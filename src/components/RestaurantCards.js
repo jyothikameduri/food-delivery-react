@@ -22,7 +22,7 @@ const ResCard = ({cloudinaryImageId,name,costForTwo,cuisines,avgRating})=>{
                      } alt="food"></img>
             <h3>{name}</h3>
             <p>{costForTwo}</p>
-            <p style={styleCard}>{cuisines.join(',')}</p>
+            <p style={styleCard}>{cuisines.join(' , ')}</p>
             <p>{avgRating}</p>
         </div>
     )

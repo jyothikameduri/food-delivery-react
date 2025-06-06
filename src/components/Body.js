@@ -1,58 +1,39 @@
-import resList from "../utils/data"; 
 import ResCard from "./RestaurantCards";
-import { useState, useEffect } from "react";
+import {useState , useEffect} from 'react';
 import Shimmer from "./ShimmerUI";
 import "../index.css";
+import {Link} from "react-router-dom";
+import useListOfRestaurants from "../utils/useListOfRestaurants";
+import useOnlineStatus from "../utils/useOnlineStatus";
 
 const Body = () => {
-  const [ListOfRestaurants, setListOfRestaurants] = useState([]);
   const [filteredRestaurants, setfilteredRestaurants] = useState([]);
+
   const [searchName,setsearchName] = useState("");
 
-useEffect(() => {
-  // fetch delays in retrieving the data i.e., API call . we used shimmer at that delay 
-  // --> but because of not using fetch useEffect() works synchronously 
-  // --> but i want shimmer effect just for my sake 
-  // --> so i used setTimeout to make delay like fetch (for my experience like website dev) 
-  // --> also we can host out data in the mockapi.io
-  // setTimeout(() => {
-  //   setListOfRestaurants(resList);
-  //   setfilteredRestaurants(resList);
-  // }, 1000); 
-  fetchData();
-}, []);
+  const ListOfRestaurants = useListOfRestaurants();
 
-  const fetchData = async () => {
-    const data = await fetch(
-      "https://www.swiggy.com/dapi/restaurants/list/v5?lat=12.9352403&lng=77.624532&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING"
-    );
-    const json = await data.json();
-      console.log(json?.data?.cards);
 
-      let restaurants = [];
-      const cards = json?.data?.cards || [];
+  useEffect(() => {
+  setfilteredRestaurants(ListOfRestaurants); 
+  }, [ListOfRestaurants]);
 
-      for (let card of cards) {
-        const grid = card?.card?.card?.gridElements?.infoWithStyle?.restaurants;
-        if (grid) {
-          restaurants = grid;
-          break;
-        }
-      }
-        setListOfRestaurants(restaurants);
-      setfilteredRestaurants(restaurants);
+  const onlineStatus = useOnlineStatus();
+
+  if (onlineStatus === false){
+      return (<h1 className="online-status">You seem to be offline. Check your network settings and try again.</h1>)
   };
 
   //this is conditional rendering
 //   if (ListOfRestaurants.length === 0){
 //     return <Shimmer/>    
 //   }
-  console.log("body rendered");
+
   return ListOfRestaurants.length === 0 ?(<Shimmer/>) : (
     <div className="body">
       <div className="filter">
         <div className="searchbar">
-            <input placeholder="Enter the Restaurant name" value={searchName} onChange={(e)=>setsearchName(e.target.value)}></input>
+            <input id="searchbar" placeholder="Enter the Restaurant name" value={searchName} onChange={(e)=>setsearchName(e.target.value)}></input>
             <button onClick={()=>{
                 let filteredNames = ListOfRestaurants.filter((restaurant)=>restaurant.info.name.toLowerCase().includes(searchName.toLowerCase()));
                 // setListOfRestaurants(filteredNames); This will update the original restaurants list and if we try to filter again then , it gets filtered from the previous filterd list --> so , we will keep the copy of filtered list 
@@ -60,6 +41,18 @@ useEffect(() => {
             }
             }>Search</button>
         </div>
+        <div className="filterButtons">
+          <button className="filter-btn" onClick={() => {
+            const filteredPrice = ListOfRestaurants.filter((restaurant) => {
+              const costStr = restaurant.info.costForTwo; 
+              const match = costStr.match(/\d+/); 
+              const cost = match ? parseInt(match[0]) : 0;
+              return cost < 300;
+            });
+            setfilteredRestaurants(filteredPrice);
+          }}>
+            Less than ₹300
+        </button>
         <button
           className="filter-btn"
           onClick={() => {
@@ -71,10 +64,20 @@ useEffect(() => {
         >
           Top rated restaurants
         </button>
+        </div>
+        
       </div>
       <div className="res-container">
         {filteredRestaurants.map((restaurant) => (
-          <ResCard key={restaurant.info.id} {...restaurant.info} />
+          <Link className="restaurants-link" key={restaurant.info.id}  to={"/restaurant/" + restaurant.info.id}>
+            <ResCard {...restaurant.info} />
+            {/** By using props 
+             * <ResCard
+              name={restaurant.info.name}
+              id={restaurant.info.id}
+              cuisines={restaurant.info.cuisines}
+              costForTwo={restaurant.info.costForTwo}/> */}
+          </Link>//Link is nothing but an anchor tag - under the hood link uses the <a>
         ))}
       </div>
     </div>

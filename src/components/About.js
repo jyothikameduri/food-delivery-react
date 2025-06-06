@@ -1,7 +1,9 @@
+import UserClass from "./UserClass";
+
 const About = ()=>{
     return (
         <div>
-            <h1>ABOUT PAGE</h1>
+            <UserClass name={"jyothika"} location={"Guntur , Andhra Pradesh"}/>
         </div>
     )
 }
