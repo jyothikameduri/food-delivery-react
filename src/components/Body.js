@@ -7,12 +7,11 @@ import useListOfRestaurants from "../utils/useListOfRestaurants";
 import useOnlineStatus from "../utils/useOnlineStatus";
 
 const Body = () => {
-  const [filteredRestaurants, setfilteredRestaurants] = useState([]);
 
   const [searchName,setsearchName] = useState("");
+  const [filteredRestaurants, setfilteredRestaurants] = useState([]);
 
   const ListOfRestaurants = useListOfRestaurants();
-
 
   useEffect(() => {
   setfilteredRestaurants(ListOfRestaurants); 
@@ -31,30 +30,47 @@ const Body = () => {
 
   return ListOfRestaurants.length === 0 ?(<Shimmer/>) : (
     <div className="body">
-      <div className="filter">
-        <div className="searchbar">
-            <input id="searchbar" placeholder="Enter the Restaurant name" value={searchName} onChange={(e)=>setsearchName(e.target.value)}></input>
-            <button onClick={()=>{
-                let filteredNames = ListOfRestaurants.filter((restaurant)=>restaurant.info.name.toLowerCase().includes(searchName.toLowerCase()));
-                // setListOfRestaurants(filteredNames); This will update the original restaurants list and if we try to filter again then , it gets filtered from the previous filterd list --> so , we will keep the copy of filtered list 
-                setfilteredRestaurants(filteredNames);   
-            }
-            }>Search</button>
+      <div className="flex items-center justify-center space-x-6 p-6">
+        {/* Search input + button */}
+        <div className="flex items-center space-x-2">
+          <input
+            className="border border-gray-300 rounded-[1rem] px-[10rem] py-[1rem] text-2xl "
+            placeholder="Enter the Restaurant name"
+            value={searchName}
+            onChange={(e) => setsearchName(e.target.value)}
+          />
+          <button
+            className="bg-[#e03618] text-white px-[3rem] py-[1rem] rounded-[1rem] hover:bg-red-500 text-base md:text-lg font-medium"
+            onClick={() => {
+              const filteredNames = ListOfRestaurants.filter((restaurant) =>
+                restaurant.info.name.toLowerCase().includes(searchName.toLowerCase())
+              );
+              setfilteredRestaurants(filteredNames);
+            }}
+          >
+            Search
+          </button>
         </div>
-        <div className="filterButtons">
-          <button className="filter-btn" onClick={() => {
+
+        {/* ₹300 Filter */}
+        <button
+          className="border rounded-lg  px-4 py-[1rem] hover:border-red-400 text-base md:text-lg font-medium"
+          onClick={() => {
             const filteredPrice = ListOfRestaurants.filter((restaurant) => {
-              const costStr = restaurant.info.costForTwo; 
-              const match = costStr.match(/\d+/); 
+              const costStr = restaurant.info.costForTwo;
+              const match = costStr.match(/\d+/);
               const cost = match ? parseInt(match[0]) : 0;
               return cost < 300;
             });
             setfilteredRestaurants(filteredPrice);
-          }}>
-            Less than ₹300
+          }}
+        >
+          Less than ₹300
         </button>
+
+        {/* Top Rated Filter */}
         <button
-          className="filter-btn"
+          className="border rounded-lg  px-4 py-[1rem] hover:border-red-400 text-base md:text-lg font-medium"
           onClick={() => {
             const filteredData = ListOfRestaurants.filter(
               (restaurant) => restaurant.info.avgRating >= 4.5
@@ -64,10 +80,10 @@ const Body = () => {
         >
           Top rated restaurants
         </button>
-        </div>
-        
       </div>
-      <div className="res-container">
+
+      <div className="res-container flex flex-wrap gap-6 justify-center p-4 rounded-2xl bg-white shadow-sm">
+
         {filteredRestaurants.map((restaurant) => (
           <Link className="restaurants-link" key={restaurant.info.id}  to={"/restaurant/" + restaurant.info.id}>
             <ResCard {...restaurant.info} />
