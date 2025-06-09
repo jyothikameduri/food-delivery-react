@@ -1,49 +1,41 @@
 import Shimmer from "./ShimmerUI";
-import {useParams} from "react-router-dom";
+import { useParams } from "react-router-dom";
 import useRestaurantMenu from "../utils/useRestaurantMenu";
+import RestaurantCategories from "./RestaurantCategories";
 
 const RestaurantMenu = () => {
-  
-  const { menuId } = useParams(); // This is used to send the id through route
+  const { menuId } = useParams();
   console.log(menuId);
 
-  const ListOfMenu = useRestaurantMenu(menuId);//this is a custom hook -> to maintain the single responsibility principle
+  const ListOfMenu = useRestaurantMenu(menuId);
 
   if (!ListOfMenu) {
     return <Shimmer />;
   }
 
-  const {name,avgRating,costForTwoMessage,cuisines} = ListOfMenu?.cards?.[2]?.card?.card?.info;
+  const { name, avgRating, costForTwoMessage, cuisines } =
+    ListOfMenu?.cards?.[2]?.card?.card?.info;
 
   const menuCards =
     ListOfMenu?.cards?.[4]?.groupedCard?.cardGroupMap?.REGULAR?.cards || [];
 
-  const itemsCard = menuCards.find(
-    (card) => card?.card?.card?.itemCards
-  );
-
-  const itemCards = itemsCard?.card?.card?.itemCards || [];
-
+  const categories = ListOfMenu?.cards?.[4]?.groupedCard?.cardGroupMap?.REGULAR.cards.filter(
+    c=> c.card?.["card"]?.["@type"] === 'type.googleapis.com/swiggy.presentation.food.v2.ItemCategory'); 
+  console.log(categories);
+  
   return (
-    <div className="menu">
-      <h1>{name}</h1>
-      <p>
-        <span style={{ color: "green"}}>★</span> {avgRating} - {costForTwoMessage}
+    <div className="p-6 max-w-3xl mx-auto text-gray-800">
+      <h1 className="text-3xl font-bold mb-2 text-center">{name}</h1>
+      <p className="text-center text-gray-600 mb-1">
+        <span className="text-green-600">★</span> {avgRating} • {costForTwoMessage}
       </p>
-      <p>{cuisines.join(' , ')}</p>
-      <div className="regular">
-        <h2>Menu</h2>
-        <ul>
-          {itemCards.map((item) => (
-            <li key={item.card.info.id}>
-              {item.card.info.name} - ₹
-              {item.card.info.price / 100 || item.card.info.defaultPrice / 100}
-              {}
-            </li>
-          ))}
-        </ul>
-      </div>
-    </div>
+      <p className="text-center text-sm text-gray-500 mb-6">{cuisines.join(" , ")}</p>
+      {
+        categories.map((category,index)=>{
+          return <RestaurantCategories key={category.card.card.categoryId || index} data={category?.card?.card}/>
+        })
+      }
+       </div>
   );
 };
 

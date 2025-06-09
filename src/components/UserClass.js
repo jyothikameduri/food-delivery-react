@@ -25,14 +25,14 @@ class UserClass extends React.Component{
     render(){
         const {avatar_url,name,location} = this.state.userInfo;
         return (
-            <div className="about-container">
-                <div className="user-card">
-                    <img src={avatar_url} alt="Profile"></img>
-                    <h1>Hosted By : <span className="info-text">{name}</span>    
+            <div className="about-container ">
+                <div className="user-card flex-col justify-center items-center  ">
+                    <img className='rounded-full' src={avatar_url} alt="Profile"></img>
+                    <h1 className='font-bold '>Hosted By : <span className="info-text  text-gray-500 ">{name}</span>    
                     </h1>
-                    <h1>Location : <span className="info-text">{location}</span>
+                    <h1 className='font-bold'>Location : <span className="info-text  text-gray-500 ">{location}</span>
                     </h1>
-                    <h1>Contact at : <span className="info-text">jyothikameduri@gmail.com</span></h1>
+                    <h1 className='font-bold'>Contact at : <span className="info-text  text-gray-500 ">jyothikameduri@gmail.com</span></h1>
                 </div>
             </div>
         )

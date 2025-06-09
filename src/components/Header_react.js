@@ -14,7 +14,7 @@ const Header = ()=>{
         </div>
         <div className="flex items-center">
             <ul className="flex p-4 m-4 ">
-                <li className="px-4 text-base md:text-lg font-medium ">
+                <li className="px-4 text-base md:text-lg font-medium  ">
                     {/** if <a> is used then the whole page get refreshed when u click */}
                     {/** (LINKING)--> THIS IS KNOWN AS SINGLE PAGE APPLICATION (SAP) */}
                     <Link to="/">Home</Link>

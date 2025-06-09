@@ -51,8 +51,6 @@ const Body = () => {
             Search
           </button>
         </div>
-
-        {/* ₹300 Filter */}
         <button
           className="border rounded-lg  px-4 py-[1rem] hover:border-red-400 text-base md:text-lg font-medium"
           onClick={() => {
@@ -67,18 +65,16 @@ const Body = () => {
         >
           Less than ₹300
         </button>
-
-        {/* Top Rated Filter */}
         <button
           className="border rounded-lg  px-4 py-[1rem] hover:border-red-400 text-base md:text-lg font-medium"
           onClick={() => {
             const filteredData = ListOfRestaurants.filter(
-              (restaurant) => restaurant.info.avgRating >= 4.5
+              (restaurant) => restaurant.info.avgRating >= 4.0
             );
             setfilteredRestaurants(filteredData);
           }}
         >
-          Top rated restaurants
+          Ratings 4.0+
         </button>
       </div>
 
@@ -87,12 +83,6 @@ const Body = () => {
         {filteredRestaurants.map((restaurant) => (
           <Link className="restaurants-link" key={restaurant.info.id}  to={"/restaurant/" + restaurant.info.id}>
             <ResCard {...restaurant.info} />
-            {/** By using props 
-             * <ResCard
-              name={restaurant.info.name}
-              id={restaurant.info.id}
-              cuisines={restaurant.info.cuisines}
-              costForTwo={restaurant.info.costForTwo}/> */}
           </Link>//Link is nothing but an anchor tag - under the hood link uses the <a>
         ))}
       </div>
