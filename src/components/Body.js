@@ -11,6 +11,10 @@ const Body = () => {
   const [searchName,setsearchName] = useState("");
   const [filteredRestaurants, setfilteredRestaurants] = useState([]);
 
+  const [showUnder300, setShowUnder300] = useState(false);
+  const [showHighRated, setShowHighRated] = useState(false);
+
+
   const ListOfRestaurants = useListOfRestaurants();
 
   useEffect(() => {
@@ -52,34 +56,63 @@ const Body = () => {
           </button>
         </div>
         <button
-          className="border rounded-lg  px-4 py-[1rem] hover:border-red-400 text-base md:text-lg font-medium"
-          onClick={() => {
-            const filteredPrice = ListOfRestaurants.filter((restaurant) => {
-              const costStr = restaurant.info.costForTwo;
-              const match = costStr.match(/\d+/);
-              const cost = match ? parseInt(match[0]) : 0;
-              return cost < 300;
-            });
-            setfilteredRestaurants(filteredPrice);
-          }}
-        >
-          Less than ₹300
+            className={`border rounded-lg px-4 py-[1rem] ${
+              showUnder300 ? "border-red-500" : "hover:border-red-400"
+            } text-base md:text-lg font-medium`}
+              onClick={() => {
+                const newState = !showUnder300;
+                setShowUnder300(newState);
+
+                if (newState) {
+                  const filtered = ListOfRestaurants.filter((restaurant) => {
+                    const costStr = restaurant.info.costForTwo;
+                    const match = costStr.match(/\d+/);
+                    const cost = match ? parseInt(match[0]) : 0;
+                    return cost < 300;
+                  });
+                  setfilteredRestaurants(filtered);
+                  setShowHighRated(false); // Turn off other filters if needed
+                } else {
+                  setfilteredRestaurants(ListOfRestaurants); // Reset
+                }
+              }}
+            >
+              Less than ₹300
+            </button>
+
+            <button
+              className={`border rounded-lg px-4 py-[1rem] ${
+                showHighRated ? "border-red-500" : "hover:border-red-400"
+              } text-base md:text-lg font-medium`}
+              onClick={() => {
+                const newState = !showHighRated;
+                setShowHighRated(newState);
+
+                if (newState) {
+                  const filtered = ListOfRestaurants.filter(
+                    (restaurant) => restaurant.info.avgRating >= 4.0
+                  );
+                  setfilteredRestaurants(filtered);
+                  setShowUnder300(false); // Optional
+                } else {
+                  setfilteredRestaurants(ListOfRestaurants);
+                }
+              }}
+            >
+              Ratings 4.0+
+            </button>
+        {/* <button
+          className="border rounded-lg  px-4 py-[1rem] hover:border-red-400 text-base md:text-lg font-medium">
+          Pure Veg
         </button>
         <button
-          className="border rounded-lg  px-4 py-[1rem] hover:border-red-400 text-base md:text-lg font-medium"
-          onClick={() => {
-            const filteredData = ListOfRestaurants.filter(
-              (restaurant) => restaurant.info.avgRating >= 4.0
-            );
-            setfilteredRestaurants(filteredData);
-          }}
-        >
-          Ratings 4.0+
+          className="border rounded-lg  px-4 py-[1rem] hover:border-red-400 text-base md:text-lg font-medium">
+          Non Veg
         </button>
+   */}
       </div>
 
       <div className="res-container flex flex-wrap gap-6 justify-center p-4 rounded-2xl bg-white shadow-sm my-10 ">
-          
         {filteredRestaurants.map((restaurant) => (
           <Link className="restaurants-link" key={restaurant.info.id}  to={"/restaurant/" + restaurant.info.id}>
             <ResCard {...restaurant.info} />

@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 
-
 const useListOfRestaurants = ()=>{
 
     const [ListOfRestaurants, setListOfRestaurants] = useState([]);
