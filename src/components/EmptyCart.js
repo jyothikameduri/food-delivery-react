@@ -6,7 +6,7 @@ const EmptyCart = () => {
         alt="emptyCart"
         className=" mt-0 mb-0 mx-[174.66px]"
       />
-      <p className="text-lg font-[14px] text-gray-700">
+      <p className="text-lg font-[25px] text-gray-700">
         Oh! It seems like your cart is empty.
       </p>
     </div>

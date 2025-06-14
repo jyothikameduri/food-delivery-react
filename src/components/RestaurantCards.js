@@ -11,7 +11,7 @@ const styleCard = {
 // if i send like resInfo then it will pass like an array and then resInfo.info becomes undefined
 // so pass as {resInfo}
 //Also we can use spread operator which makes easy to code
-const ResCard = ({cloudinaryImageId,name,costForTwo,cuisines,avgRating,sla,aggregatedDiscountInfoV3})=>{
+const ResCard = ({cloudinaryImageId,name,cuisines,avgRating,sla,aggregatedDiscountInfoV3})=>{
     // const { resInfo } = props;
     // The ?. operator is called optional chaining.
     // It safely accesses deeply nested properties without throwing an error if something is null or undefined.

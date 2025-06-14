@@ -5,11 +5,12 @@
   "scripts": {
     "start": "parcel index.html",
     "build": "parcel build index.html",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "author": "\"jyothika\"",
   "license": "ISC",
   "dependencies": {
+    "@babel/preset-react": "^7.27.1",
     "@fortawesome/free-brands-svg-icons": "^6.7.2",
     "@fortawesome/free-regular-svg-icons": "^6.7.2",
     "@fortawesome/free-solid-svg-icons": "^6.7.2",
@@ -24,10 +25,19 @@
     "tailwindcss": "^4.1.8"
   },
   "devDependencies": {
+    "@babel/core": "^7.27.4",
+    "@babel/preset-env": "^7.27.2",
+    "@testing-library/dom": "^10.4.0",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.3.0",
     "assert": "^2.1.0",
+    "babel-jest": "^30.0.0",
     "buffer": "^6.0.3",
     "crypto-browserify": "^3.12.1",
     "events": "^3.3.0",
+    "jest": "^30.0.0",
+    "jest-environment-jsdom": "^30.0.0",
+    "jsdom": "^26.1.0",
     "os-browserify": "^0.3.0",
     "parcel": "^2.14.4",
     "path-browserify": "^1.0.1",
@@ -37,7 +47,7 @@
     "url": "^0.11.4",
     "util": "^0.12.5"
   },
-  "browserlist": [
+  "browserslist": [
     "last 2 versions"
   ]
 }
