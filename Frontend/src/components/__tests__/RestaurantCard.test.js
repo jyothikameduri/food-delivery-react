@@ -9,3 +9,4 @@ it('should render RestaurantCard component with props Data',()=>{
     const name = screen.getByText('Theobroma');
     expect(name).toBeInTheDocument();
 })
+
