@@ -37,7 +37,7 @@ const Body = () => {
 
   return ListOfRestaurants.length === 0 ? (<Shimmer/>) : (
     <div className="body px-4 sm:px-6 md:px-10 lg:px-20">
-      <div className="flex flex-col sm:flex-row flex-wrap items-center justify-center sm:space-x-6 space-y-4 sm:space-y-0 p-6">
+      <div className="flex flex-col items-center justify-center space-y-6 p-6">
         {/* Search input + button */}
         <div className="flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-2 w-full sm:w-auto">
           <input
@@ -59,52 +59,55 @@ const Body = () => {
           </button>
         </div>
 
-        <button
-          className={`border rounded-lg px-4 py-[1rem] ${
-            showUnder300 ? "border-red-500" : "hover:border-red-400"
-          } text-sm sm:text-base md:text-lg font-medium`}
-          onClick={() => {
-            const newState = !showUnder300;
-            setShowUnder300(newState);
+        {/* Buttons moved below */}
+        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <button
+            className={`border rounded-lg px-4 py-[1rem] ${
+              showUnder300 ? "border-red-500" : "hover:border-red-400"
+            } text-sm sm:text-base md:text-lg font-medium`}
+            onClick={() => {
+              const newState = !showUnder300;
+              setShowUnder300(newState);
 
-            if (newState) {
-              const filtered = ListOfRestaurants.filter((restaurant) => {
-                const costStr = restaurant.info.costForTwo;
-                const match = costStr.match(/\d+/);
-                const cost = match ? parseInt(match[0]) : 0;
-                return cost < 300;
-              });
-              setfilteredRestaurants(filtered);
-              setShowHighRated(false); // Turn off other filters if needed
-            } else {
-              setfilteredRestaurants(ListOfRestaurants); // Reset
-            }
-          }}
-        >
-          Less than ₹300
-        </button>
+              if (newState) {
+                const filtered = ListOfRestaurants.filter((restaurant) => {
+                  const costStr = restaurant.info.costForTwo;
+                  const match = costStr.match(/\d+/);
+                  const cost = match ? parseInt(match[0]) : 0;
+                  return cost < 300;
+                });
+                setfilteredRestaurants(filtered);
+                setShowHighRated(false); // Turn off other filters if needed
+              } else {
+                setfilteredRestaurants(ListOfRestaurants); // Reset
+              }
+            }}
+          >
+            Less than ₹300
+          </button>
 
-        <button
-          className={`border rounded-lg px-4 py-[1rem] ${
-            showHighRated ? "border-red-500" : "hover:border-red-400"
-          } text-sm sm:text-base md:text-lg font-medium`}
-          onClick={() => {
-            const newState = !showHighRated;
-            setShowHighRated(newState);
+          <button
+            className={`border rounded-lg px-4 py-[1rem] ${
+              showHighRated ? "border-red-500" : "hover:border-red-400"
+            } text-sm sm:text-base md:text-lg font-medium`}
+            onClick={() => {
+              const newState = !showHighRated;
+              setShowHighRated(newState);
 
-            if (newState) {
-              const filtered = ListOfRestaurants.filter(
-                (restaurant) => restaurant.info.avgRating >= 4.0
-              );
-              setfilteredRestaurants(filtered);
-              setShowUnder300(false); // Optional
-            } else {
-              setfilteredRestaurants(ListOfRestaurants);
-            }
-          }}
-        >
-          Ratings 4.0+
-        </button>
+              if (newState) {
+                const filtered = ListOfRestaurants.filter(
+                  (restaurant) => restaurant.info.avgRating >= 4.0
+                );
+                setfilteredRestaurants(filtered);
+                setShowUnder300(false); // Optional
+              } else {
+                setfilteredRestaurants(ListOfRestaurants);
+              }
+            }}
+          >
+            Ratings 4.0+
+          </button>
+        </div>
 
         {/* <button
           className="border rounded-lg  px-4 py-[1rem] hover:border-red-400 text-base md:text-lg font-medium">
