@@ -4,8 +4,6 @@ import Shimmer from "./ShimmerUI";
 import RestaurantCategories from "./RestaurantCategories";
 import MenuFilters from "./MenuFilters";
 import { useState, useEffect, useMemo } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
 const RestaurantMenu = () => {
   const { menuId } = useParams();
@@ -45,17 +43,17 @@ const RestaurantMenu = () => {
       <p className="text-center text-gray-500 mb-6">{cuisines.join(", ")}</p>
 
       {/* Search Bar */}
-      <div className="text-center mb-6">
+       <div className="text-center mb-6">
         <h2 className="text-gray-500 mb-2">-- MENU --</h2>
-        <input
+      </div>
+        {/* <input
           placeholder="Search for dishes"
           className="border rounded-2xl px-4 py-3 bg-gray-100 w-[600px]"
         />
         <button className="ml-2">
           <FontAwesomeIcon icon={faSearch} className="text-xl text-gray-500" />
         </button>
-      </div>
-
+      </div> */} 
       {/* Filters */}
       <div className="mb-4 border-b pb-4">
         <MenuFilters
