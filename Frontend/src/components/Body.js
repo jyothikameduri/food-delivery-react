@@ -42,7 +42,7 @@ const Body = () => {
         <div className="flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-2 w-full sm:w-auto">
           <input
             className="border border-gray-300 rounded-[1rem] px-4 sm:px-[10rem] py-[1rem] text-lg sm:text-2xl w-full sm:w-auto"
-            placeholder="Enter the Restaurant name"
+            placeholder="Enter Restaurant name"
             value={searchName}
             onChange={(e) => setsearchName(e.target.value)}
           />
